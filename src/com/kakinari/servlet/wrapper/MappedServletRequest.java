@@ -3,6 +3,7 @@
  */
 package com.kakinari.servlet.wrapper;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -29,7 +30,19 @@ public class MappedServletRequest extends EditableServletRequest {
 	
 	@Override
 	public String getParameter(String name) {
-		return super.getParameter(getRealName(name));
+		String rname[] = getRealName(name).split(":");
+		String val = super.getParameter(rname[0]);
+		if (val == null) return null;
+		switch (rname.length) {
+		case 1:
+			return val;
+		case 2:
+			return val.substring(Integer.valueOf(rname[1]));
+		case 3:
+			return val.substring(Integer.valueOf(rname[1]), Integer.valueOf(rname[2]));
+		default:
+			return null;
+		}
 	}
 
 	@Override
@@ -38,10 +51,23 @@ public class MappedServletRequest extends EditableServletRequest {
 		if (orig == null || this.keymap == null)
 			return orig;
 		Map<String, String[]> retval = new HashMap<String, String[]>();
+		ArrayList<String> rlist = new ArrayList<String>();
 		for (Entry<String, String> entry : keymap.entrySet()) {
-			if(orig.containsKey(entry.getValue()))
-				retval.put(entry.getKey(), orig.remove(entry.getValue()));
+			String key = entry.getValue();
+			if (key != null && key.contains(":"))
+				key = key.split(":")[0];
+			if(orig.containsKey(key)) {
+				if (key.equals(entry.getValue())) {
+					retval.put(entry.getKey(), orig.remove(entry.getValue()));
+				} else {
+					if (! rlist.contains(key))
+						rlist.add(key);
+					retval.put(entry.getKey(), orig.get(entry.getValue()));
+				}
+			}
 		}
+		for (String k : rlist)
+			orig.remove(k);
 		retval.putAll(orig);
 		return retval;
 	}
@@ -53,7 +79,24 @@ public class MappedServletRequest extends EditableServletRequest {
 
 	@Override
 	public String[] getParameterValues(String name) {
-		return super.getParameterValues(getRealName(name));
+		String rname[] = getRealName(name).split(":");
+		String[] vals = super.getParameterValues(rname[0]);
+		if (vals == null) return null;
+		ArrayList<String> ret = new ArrayList<String>();
+		switch (rname.length) {
+		case 1:
+			return vals;
+		case 2:
+			for (String val : vals)
+				ret.add(val.substring(Integer.valueOf(rname[1])));
+			return ret.toArray(new String[] {});
+		case 3:
+			for (String val : vals)
+				ret.add(val.substring(Integer.valueOf(rname[1]), Integer.valueOf(rname[2])));
+			return ret.toArray(new String[] {});
+		default:
+			return null;
+		}
 	}
 
 	@Override
