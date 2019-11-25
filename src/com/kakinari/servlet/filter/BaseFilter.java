@@ -18,10 +18,10 @@ import com.kakinari.servlet.wrapper.ReadableServletResponse;
  */
 
 public abstract class BaseFilter implements Filter {
-	abstract ServletRequest seRequestWrapper(ServletRequest request);
-	abstract ServletResponse setResponseWrapper(ServletResponse response);
-	abstract void doPreProcess(ServletRequest request, ServletResponse response);
-	abstract void doPostProcess(ServletRequest request, ServletResponse response);
+	abstract protected ServletRequest seRequestWrapper(ServletRequest request);
+	abstract protected ServletResponse setResponseWrapper(ServletResponse response);
+	abstract protected void doPreProcess(ServletRequest request, ServletResponse response);
+	abstract protected void doPostProcess(ServletRequest request, ServletResponse response);
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
