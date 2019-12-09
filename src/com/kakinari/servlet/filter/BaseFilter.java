@@ -58,7 +58,7 @@ public abstract class BaseFilter implements Filter {
 		return request instanceof EditableServletRequest;
 	}
 	
-	protected boolean isReadableResponser(ServletResponse response) {
+	protected boolean isReadableResponse(ServletResponse response) {
 		return response instanceof ReadableServletResponse;
 	}
 }

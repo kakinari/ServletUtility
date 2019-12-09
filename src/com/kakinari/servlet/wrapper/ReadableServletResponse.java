@@ -12,6 +12,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+import com.kakinari.core.io.BufferedPrintWriter;
+import com.kakinari.servlet.io.BufferedServletOutputStream;
+
 /**
  * @author Takashi Kakinari
  *

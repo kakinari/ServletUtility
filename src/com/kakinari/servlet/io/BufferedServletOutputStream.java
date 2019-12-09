@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kakinari.servlet.wrapper;
+package com.kakinari.servlet.io;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
