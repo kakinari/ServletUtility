@@ -3,6 +3,7 @@ package com.kakinari.servlet.filter;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -23,6 +24,8 @@ public abstract class BaseFilter implements Filter {
 	abstract protected void doPreProcess(ServletRequest request, ServletResponse response);
 	abstract protected void doPostProcess(ServletRequest request, ServletResponse response);
 
+	private FilterConfig filterConfig;
+
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
@@ -34,6 +37,15 @@ public abstract class BaseFilter implements Filter {
 		doPostProcess(inWrapper, outWrapper);
 	}
 	
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		this.filterConfig = filterConfig;
+	}
+	
+	protected FilterConfig getConfig() {
+		return this.filterConfig;
+	}
+
 	protected ServletRequest setEditableRequestWrapper(ServletRequest request) {
 		return new EditableServletRequest((HttpServletRequest)  request);
 	}
