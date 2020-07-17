@@ -6,7 +6,6 @@ import java.util.Map;
 
 // import javax.servlet.annotation.WebListener;
 
-import com.kakinari.servlet.datatype.ServletInfo;
 import com.kakinari.servlet.listener.ServiceContentListener;
 
 // @WebListener
