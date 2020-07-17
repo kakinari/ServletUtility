@@ -167,4 +167,8 @@ public class MappedServletRequest extends EditableServletRequest {
 	public String getRealName(String name) {
 		return keymap.containsKey(name) ? keymap.get(name) != null ? keymap.get(name) : name : name;
 	}
+	
+	public Map<String,String> getMapTable() {
+		return this.keymap;
+	}
 }
